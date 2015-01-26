@@ -110,3 +110,29 @@ for k in $(seq 2 6) ; do
         done
     done
 done
+
+while read k m c ; do
+    for stripe_width in $STRIPE_WIDTHS ; do
+        ceph_erasure_code_non_regression --stripe-width $stripe_width --plugin shec --parameter technique=multiple --parameter k=$k --parameter m=$m --parameter c=$c $ACTION $VERBOSE $MYDIR
+    done
+done <<EOF
+1 1 1
+2 1 1
+3 2 1
+3 2 2
+3 3 2
+4 1 1
+4 2 2
+4 3 2
+5 2 1
+6 3 2
+6 4 2
+6 4 3
+7 2 1
+8 3 2
+8 4 2
+8 4 3
+9 4 2
+9 5 3
+12 7 4
+EOF
